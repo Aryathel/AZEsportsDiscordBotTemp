@@ -19,7 +19,7 @@ class EmbedUtil:
 
     def get_embed(self, title = None, desc = None, fields = None, ts = False,
                     author = None, thumbnail = None, image = None, footer = None,
-                    footer_image = None, url = None, color = None):
+                    footer_image = None, url=None, color = None):
         """Function | Create Embedded Message
 
         This function reads the default embed settings from the bot
@@ -27,11 +27,14 @@ class EmbedUtil:
         of the input.
         """
         embed = discord.Embed(
-            title = title,
-            description = desc,
-            url = url,
             color = self.embed_color if not color else color
         )
+        if title:
+            embed.title = title
+        if desc:
+            embed.description = desc
+        if url:
+            embed.url = url
         if not footer == False:
             embed.set_footer(
                 text = self.footer if not footer else footer,
