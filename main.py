@@ -145,67 +145,7 @@ async def on_ready():
     )
 
     # Send the embed "online" message to the log channel.
-    await bot.log_channel.send(embed = embed)
-
-    channel = bot.get_channel(bot.ticket_channel_id)
-    guild = channel.guild
-    roles = [guild.get_role(r) for r in bot.ticket_roles]
-
-    embed = bot.embed_util.get_embed(
-        title = "__**Welcome to the Tournament Desk backend**__",
-        desc = f"""Only Moderators have access to this channel.
-        Please try to keep the tickets as short and effective as possible.
-        If you are unsure on a problem please elevate it to an admin.
-        """,
-        fields = [{
-            "name": "Commands",
-            "value": f"`{bot.prefix}openticket`: Opens a new ticket.\n`{bot.prefix}closeticket`: Closes a ticket and archives the channel.\n`{bot.prefix}ziptickets`: Deletes all archived tickets and puts them into a zipped folder.",
-            "inline": False
-        }]
-    )
-
-    ch_found = False
-    m_found = False
-    channel = bot.get_channel(bot.data['ticket_backend']['CH_ID'])
-    if channel:
-        ch_found = True
-        try:
-            msg = await channel.fetch_message(bot.data['ticket_backend']['M_ID'])
-            m_found = True
-        except discord.NotFound:
-            pass
-
-    if not ch_found:
-        open_ticket_category = bot.get_channel(bot.open_ticket_category_id)
-        print(f"{bot.OK} {bot.TIMELOG()} Creating ticket backend channel.")
-        if len(open_ticket_category.channels) == 0:
-            pos = 0
-        else:
-            pos = open_ticket_category.channels[0].position
-        overwrites = {
-            guild.default_role: discord.PermissionOverwrite(read_messages=False)
-        }
-        for role in roles:
-            overwrites[role] = discord.PermissionOverwrite(read_messages=True)
-        channel = await open_ticket_category.create_text_channel(
-            name = "legend",
-            reason = "Created ticket backend legend.",
-            overwrites = overwrites
-        )
-        await channel.edit(position = pos, category = open_ticket_category)
-        print(f"{bot.OK} {bot.TIMELOG()} Sending message in ticket backend channel.")
-        m = await channel.send(embed = embed)
-        bot.data['ticket_backend'] = {}
-        bot.data['ticket_backend']['CH_ID'] = channel.id
-        bot.data['ticket_backend']['M_ID'] = m.id
-        bot.data_manager.save_data()
-    elif not m_found:
-        print(f"{bot.OK} {bot.TIMELOG()} Sending message in ticket backend channel.")
-        m = await channel.send(embed = embed)
-        bot.data['ticket_backend'] = {}
-        bot.data['ticket_backend']['CH_ID'] = channel.id
-        bot.data['ticket_backend']['M_ID'] = m.id
-        bot.data_manager.save_data()
+    await bot.log_channel.send(embed=embed)
 
     # Set the bot start time for use in the uptime command.
     bot.start_time = bot.embed_ts()
