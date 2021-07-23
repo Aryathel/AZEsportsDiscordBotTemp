@@ -38,7 +38,7 @@ Embed Settings:
 
   Footer:
     # The text for the footer of the messages.
-    Text: "Wildcat Gaming - UArizona Esports Bot v2.0.1b"
+    Text: "UArizona Esports Bot v2.0.1b"
 
     # The url for the icon at the bottom of your footer image.
     Icon URL: https://uastreamteam.heroicoshm.page/static/img/high-res.png
